@@ -6,16 +6,15 @@ from django.db.models import Q, Max, Min, Avg, Count
 
 class TrainView(View):
     def get(self, request):
-        # Создайте здесь запросы к БД
         # TODO Какие авторы имеют самую высокую уровень самооценки(self_esteem)?
         max_self_esteem = Author.objects.aggregate(max_self_esteem=Max('self_esteem'))
         self.answer1 = Author.objects.filter(self_esteem=max_self_esteem['max_self_esteem'])
 
         # TODO Какой автор имеет наибольшее количество опубликованных статей?
-        self.answer2 = None  # Entry.objects.annotate(author=Count('author').order_by('-author').first()
+        self.answer2 = None  # Entry.objects.values('author').annotate(total=Count('id')).order_by('-total').first()
 
         # TODO Какие статьи содержат тег 'Кино' или 'Музыка' ?
-        self.answer3 = None  # Entry.objects.filter(Q(tags='Кино') | Q(tags='Музыка'))
+        self.answer3 = Entry.objects.filter(Q(tags__name='Кино') | Q(tags__name='Музыка')).distinct()
 
         # TODO Сколько авторов женского пола зарегистрировано в системе?
         self.answer4 = Author.objects.filter(gender='ж').count()
@@ -38,7 +37,7 @@ class TrainView(View):
         self.answer9 = Author.objects.filter(age__lt=25)
 
         # TODO Сколько статей написано каждым автором?
-        self.answer10 = None  # Entry.objects.annotate(number_of_entries=Count('author')).values('author', 'number_of_entries')
+        self.answer10 = None  # Entry.objects.annotate(entries=Count('author')).values('author', 'entries')
 
         context = {f'answer{index}': self.__dict__[f'answer{index}'] for index in range(1, 11)}
 
