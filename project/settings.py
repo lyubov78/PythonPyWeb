@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'apps.app',
     'apps.db_train',
     'apps.api',
+    'apps.api_tags',
     'tinymce',
     'crispy_forms',
     "crispy_bootstrap4",

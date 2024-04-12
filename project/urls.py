@@ -27,7 +27,8 @@ urlpatterns = [
     path('api_alter/', include('apps.db_train_alternative.urls')),
     path('api/schema/', SpectacularAPIView.as_view(), name='schema'),
     path('api/docs/', SpectacularSwaggerView.as_view(url_name='schema'), name='swagger-ui'),
-    path('api/', include('apps.api.urls'))
+    path('api/', include('apps.api.urls')),
+    path('api_tags/', include('apps.api_tags.urls'))
 ]
 
 if settings.DEBUG:
